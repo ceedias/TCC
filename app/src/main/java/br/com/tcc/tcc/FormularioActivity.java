@@ -23,7 +23,7 @@ public class FormularioActivity extends AppCompatActivity {
         public void onClick(View v) {
             Toast.makeText(FormularioActivity.this, "Pet Cadastrado com Sucesso!", Toast.LENGTH_SHORT).show();
             Intent vaiPralista = new Intent(FormularioActivity.this,  ListaPetsActivity.class);
-            startActivity(vaiPralista); // Aqui ele vai jogar pra lista 
+            startActivity(vaiPralista); // Aqui ele vai jogar pra lista
         }
     });
     }
