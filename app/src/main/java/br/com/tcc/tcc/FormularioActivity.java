@@ -1,5 +1,6 @@
 package br.com.tcc.tcc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,8 @@ public class FormularioActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Toast.makeText(FormularioActivity.this, "Pet Cadastrado com Sucesso!", Toast.LENGTH_SHORT).show();
+            Intent vaiPralista = new Intent(FormularioActivity.this,  ListaPetsActivity.class);
+            startActivity(vaiPralista); // Aqui ele vai jogar pra lista 
         }
     });
     }
