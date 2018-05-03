@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.zip.Inflater;
 
+import br.com.tcc.tcc.dao.PetDAO;
 import br.com.tcc.tcc.modelo.Pet;
 
 public class FormularioActivity extends AppCompatActivity {
@@ -44,7 +45,11 @@ public class FormularioActivity extends AppCompatActivity {
             case R.id.menu_formulario_ok:
 
                 Pet pet = helper.pegaPet();
-                Toast.makeText(FormularioActivity.this,"O" +pet.getAnimal()+ "foi Cadastrado com Sucesso!", Toast.LENGTH_SHORT).show();
+                PetDAO dao = new PetDAO(this);
+                dao.insere(pet);
+                dao.close();
+
+                Toast.makeText(FormularioActivity.this,"O seu PET: " +pet.getAnimal()+ " foi Cadastrado com Sucesso!", Toast.LENGTH_SHORT).show();
 
                 finish();
                 break;

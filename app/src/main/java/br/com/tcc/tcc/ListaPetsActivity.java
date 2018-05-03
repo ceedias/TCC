@@ -8,6 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.List;
+
+import br.com.tcc.tcc.dao.PetDAO;
+import br.com.tcc.tcc.modelo.Pet;
+
 public class ListaPetsActivity extends AppCompatActivity {
 
     @Override
@@ -15,9 +20,12 @@ public class ListaPetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pets);
 
-        String[] pets= {"Cachorro", "Gato", "Papagaio", "Peixe"};
+        PetDAO dao = new PetDAO(this);
+        List<Pet> pets = dao.buscaPets();
+        dao.close();
+
         ListView listaPets = (ListView) findViewById(R.id.lista_pets);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, pets);
+        ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
         listaPets.setAdapter(adapter);
         final Button novoPet = (Button) findViewById(R.id.novo_pet);
         novoPet.setOnClickListener(new View.OnClickListener() {
