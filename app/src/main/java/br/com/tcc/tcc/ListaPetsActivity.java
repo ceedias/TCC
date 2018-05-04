@@ -3,10 +3,14 @@ package br.com.tcc.tcc;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -15,12 +19,14 @@ import br.com.tcc.tcc.modelo.Pet;
 
 public class ListaPetsActivity extends AppCompatActivity {
 
+    private ListView listaPets;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pets);
 
-
+         listaPets = (ListView) findViewById(R.id.lista_pets);
 
         Button novoPet = (Button) findViewById(R.id.novo_pet);
         novoPet.setOnClickListener(new View.OnClickListener() {
@@ -31,7 +37,7 @@ public class ListaPetsActivity extends AppCompatActivity {
             }
         });
 
-
+    registerForContextMenu(listaPets);
 
 
     }
@@ -41,7 +47,7 @@ public class ListaPetsActivity extends AppCompatActivity {
         List<Pet> pets = dao.buscaPets();
         dao.close();
 
-        ListView listaPets = (ListView) findViewById(R.id.lista_pets);
+
         ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
         listaPets.setAdapter(adapter);
     }
@@ -50,5 +56,25 @@ public class ListaPetsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         carregaLista();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+       MenuItem deletar =  menu.add("Deletar");
+       deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+           @Override
+           public boolean onMenuItemClick(MenuItem item) {
+               AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+               Pet pet = (Pet) listaPets.getItemAtPosition(info.position);
+
+               PetDAO dao = new PetDAO(ListaPetsActivity.this);
+               dao.deleta(pet);
+               dao.close();
+
+               carregaLista();
+               //Toast.makeText(ListaPetsActivity.this, "Deletar Pet " +pet.getAnimal(), Toast.LENGTH_SHORT).show();
+               return false;
+           }
+       });
     }
 }

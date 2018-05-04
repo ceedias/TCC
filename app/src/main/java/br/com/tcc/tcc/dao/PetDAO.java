@@ -68,4 +68,10 @@ public class PetDAO extends SQLiteOpenHelper{
 
             return pets;
     }
+
+    public void deleta(Pet pet) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] params = {pet.getId().toString()};
+        db.delete("Pet", "id= ?", params);
+    }
 }
