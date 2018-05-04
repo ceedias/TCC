@@ -24,7 +24,7 @@ public class PetDAO extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-            String sql = "CREATE TABLE PET (ID INTEGER PRIMARY KEY, NOME TEXT NOT NULL, ENDERECO TEXT NOT NULL, TELEFONE TEXT NOT NULL);";
+            String sql = "CREATE TABLE PET (id INTEGER PRIMARY KEY, animal TEXT NOT NULL, endereco TEXT NOT NULL, telefone TEXT NOT NULL);";
             db.execSQL(sql);
     }
 
@@ -37,11 +37,14 @@ public class PetDAO extends SQLiteOpenHelper{
     }
 
     public void insere(Pet pet) {
+
         SQLiteDatabase db = getWritableDatabase();
+
         ContentValues dados = new ContentValues();
-        dados.put("nome", pet.getAnimal());
+        dados.put("animal", pet.getAnimal());
         dados.put("endereco",pet.getEndereco());
         dados.put("telefone", pet.getTelefone());
+
         db.insert("PET",null,dados);
 
     }
@@ -55,13 +58,14 @@ public class PetDAO extends SQLiteOpenHelper{
         while (c.moveToNext()) {
             Pet pet = new Pet();
             pet.setId(c.getLong(c.getColumnIndex("id")));
-            pet.setAnimal(c.getString(c.getColumnIndex("nome")));
+            pet.setAnimal(c.getString(c.getColumnIndex("animal")));
             pet.setEndereco(c.getString(c.getColumnIndex("endereco")));
             pet.setTelefone(c.getString(c.getColumnIndex("telefone")));
 
             pets.add(pet);
         }
         c.close();
+
             return pets;
     }
 }

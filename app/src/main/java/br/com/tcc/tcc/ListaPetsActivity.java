@@ -27,7 +27,8 @@ public class ListaPetsActivity extends AppCompatActivity {
         ListView listaPets = (ListView) findViewById(R.id.lista_pets);
         ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
         listaPets.setAdapter(adapter);
-        final Button novoPet = (Button) findViewById(R.id.novo_pet);
+
+        Button novoPet = (Button) findViewById(R.id.novo_pet);
         novoPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
