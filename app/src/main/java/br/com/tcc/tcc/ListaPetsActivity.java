@@ -20,13 +20,7 @@ public class ListaPetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pets);
 
-        PetDAO dao = new PetDAO(this);
-        List<Pet> pets = dao.buscaPets();
-        dao.close();
 
-        ListView listaPets = (ListView) findViewById(R.id.lista_pets);
-        ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
-        listaPets.setAdapter(adapter);
 
         Button novoPet = (Button) findViewById(R.id.novo_pet);
         novoPet.setOnClickListener(new View.OnClickListener() {
@@ -36,5 +30,25 @@ public class ListaPetsActivity extends AppCompatActivity {
                 startActivity(intentvaiProFormulario);
             }
         });
+
+
+
+
+    }
+
+    private void carregaLista() {
+        PetDAO dao = new PetDAO(this);
+        List<Pet> pets = dao.buscaPets();
+        dao.close();
+
+        ListView listaPets = (ListView) findViewById(R.id.lista_pets);
+        ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
+        listaPets.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        carregaLista();
     }
 }
