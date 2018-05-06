@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +41,19 @@ public class PetDAO extends SQLiteOpenHelper{
 
         SQLiteDatabase db = getWritableDatabase();
 
+        ContentValues dados = pegaDadosDoPet(pet);
+
+        db.insert("PET",null,dados);
+
+    }
+
+    @NonNull
+    private ContentValues pegaDadosDoPet(Pet pet) {
         ContentValues dados = new ContentValues();
         dados.put("animal", pet.getAnimal());
         dados.put("endereco",pet.getEndereco());
         dados.put("telefone", pet.getTelefone());
-
-        db.insert("PET",null,dados);
-
+        return dados;
     }
 
     public List<Pet> buscaPets() {
@@ -73,5 +80,14 @@ public class PetDAO extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
         String[] params = {pet.getId().toString()};
         db.delete("Pet", "id= ?", params);
+    }
+
+    public void altera(Pet pet) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues dados = pegaDadosDoPet(pet);
+
+        String[] params = {pet.getId().toString()};
+        db.update("PET", dados, "id = ?", params);
     }
 }

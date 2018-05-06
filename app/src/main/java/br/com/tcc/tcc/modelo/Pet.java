@@ -1,10 +1,12 @@
 package br.com.tcc.tcc.modelo;
 
+import java.io.Serializable;
+
 /**
  * Created by cesardias on 26/03/18.
  */
 
-public class Pet {
+public class Pet implements Serializable{
 
     private Long Id;
     private String animal;

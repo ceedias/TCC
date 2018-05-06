@@ -28,7 +28,16 @@ public class FormularioActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
+
         helper = new FormularioHelper(this);
+
+        Intent intent = getIntent();
+        Pet pet = (Pet) intent.getSerializableExtra("pet");
+        if (pet != null){
+            helper.preencheForm(pet);
+        }
+
+
 
     }
 
@@ -46,7 +55,13 @@ public class FormularioActivity extends AppCompatActivity {
 
                 Pet pet = helper.pegaPet();
                 PetDAO dao = new PetDAO(this);
-                dao.insere(pet);
+
+                if(pet.getId() != null) {
+                    dao.altera(pet);
+                }else {
+
+                    dao.insere(pet);
+                }
                 dao.close();
 
                 Toast.makeText(FormularioActivity.this,"O seu PET: " +pet.getAnimal()+ " foi Cadastrado com Sucesso!", Toast.LENGTH_SHORT).show();

@@ -28,6 +28,16 @@ public class ListaPetsActivity extends AppCompatActivity {
 
          listaPets = (ListView) findViewById(R.id.lista_pets);
 
+         listaPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             @Override
+             public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
+                    Pet pet = (Pet) listaPets.getItemAtPosition(position);
+                    Intent intentVaiProFormulario = new Intent(ListaPetsActivity.this, FormularioActivity.class); //startActivity(intentVaiProFormulario); (Bug Fixed - Formulario sendo aberto)
+                    intentVaiProFormulario.putExtra("pet",pet);
+                    startActivity(intentVaiProFormulario);
+             }
+         });
+
         Button novoPet = (Button) findViewById(R.id.novo_pet);
         novoPet.setOnClickListener(new View.OnClickListener() {
             @Override
