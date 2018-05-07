@@ -1,6 +1,9 @@
 package br.com.tcc.tcc;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -13,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.zip.Inflater;
 
 import br.com.tcc.tcc.dao.PetDAO;
@@ -22,7 +27,9 @@ import br.com.tcc.tcc.modelo.Pet;
 
 public class FormularioActivity extends AppCompatActivity {
 
+    public static final int CODIGO_CAMERA = 567;
     private FormularioHelper helper;
+    private String caminhoFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +50,24 @@ public class FormularioActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivity(intentCamera);
+                 caminhoFoto = getExternalFilesDir(null) + "/" +System.currentTimeMillis() + ".jpg";
+                File arquivoFoto = new File(caminhoFoto);
+                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+                startActivityForResult(intentCamera, CODIGO_CAMERA);
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == CODIGO_CAMERA) {
+                ImageView foto = (ImageView) findViewById(R.id.formulario_foto);
+                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
+                Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+                foto.setImageBitmap(bitmapReduzido);
+                foto.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
     }
 
     @Override
