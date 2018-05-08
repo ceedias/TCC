@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -52,12 +53,21 @@ public class FormularioActivity extends AppCompatActivity {
                 Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                  caminhoFoto = getExternalFilesDir(null) + "/" +System.currentTimeMillis() + ".jpg";
                 File arquivoFoto = new File(caminhoFoto);
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+
+                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,
+                        FileProvider.getUriForFile(FormularioActivity.this,
+                                BuildConfig.APPLICATION_ID + ".provider", arquivoFoto));
+
                 startActivityForResult(intentCamera, CODIGO_CAMERA);
+
+                //intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+                //startActivityForResult(intentCamera, CODIGO_CAMERA);
             }
         });
 
-    }
+        }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
