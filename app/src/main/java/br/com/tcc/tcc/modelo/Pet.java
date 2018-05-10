@@ -12,6 +12,12 @@ public class Pet implements Serializable{
     private String animal;
     private String endereco;
     private String telefone;
+    private String caminhoFoto;
+
+
+
+    public Pet() {
+    }
 
     public Long getId() {
         return Id;
@@ -45,6 +51,13 @@ public class Pet implements Serializable{
         this.telefone = telefone;
     }
 
+    public String getCaminhoFoto() {
+        return caminhoFoto;
+    }
+
+    public void setCaminhoFoto(String caminhoFoto) {
+        this.caminhoFoto = caminhoFoto;
+    }
 
     @Override
     public String toString()  {

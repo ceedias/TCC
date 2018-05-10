@@ -62,7 +62,7 @@ public class ListaPetsActivity extends AppCompatActivity {
         dao.close();
 
 
-        ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, android.R.layout.simple_list_item_1, pets);
+        ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, R.layout.list_item, pets);
         listaPets.setAdapter(adapter);
     }
 

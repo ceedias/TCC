@@ -20,20 +20,27 @@ public class PetDAO extends SQLiteOpenHelper{
 
 
     public PetDAO(Context context) {
-        super(context, "TCC", null, 1);
+        super(context, "TCC", null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-            String sql = "CREATE TABLE PET (id INTEGER PRIMARY KEY, animal TEXT NOT NULL, endereco TEXT NOT NULL, telefone TEXT NOT NULL);";
+            String sql = "CREATE TABLE PET (id INTEGER PRIMARY KEY, animal TEXT NOT NULL, caminhoFoto TEXT, endereco TEXT NOT NULL, telefone TEXT NOT NULL);";
             db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql = "DROP TABLE IF EXISTS PET;";
-        db.execSQL(sql);
-        onCreate(db);
+        //String sql = "DROP TABLE IF EXISTS PET;";
+        String sql = "";
+        switch (oldVersion){
+            case 1 :
+                sql = "Alter table PET add column caminhoFoto text;";
+                db.execSQL(sql);
+
+        }
+        //db.execSQL(sql);
+        //onCreate(db);
 
     }
 
@@ -42,6 +49,7 @@ public class PetDAO extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues dados = pegaDadosDoPet(pet);
+        dados.put("caminhoFoto", pet.getCaminhoFoto());
 
         db.insert("PET",null,dados);
 
@@ -53,6 +61,7 @@ public class PetDAO extends SQLiteOpenHelper{
         dados.put("animal", pet.getAnimal());
         dados.put("endereco",pet.getEndereco());
         dados.put("telefone", pet.getTelefone());
+        dados.put("caminhoFoto", pet.getCaminhoFoto());
         return dados;
     }
 
@@ -68,6 +77,8 @@ public class PetDAO extends SQLiteOpenHelper{
             pet.setAnimal(c.getString(c.getColumnIndex("animal")));
             pet.setEndereco(c.getString(c.getColumnIndex("endereco")));
             pet.setTelefone(c.getString(c.getColumnIndex("telefone")));
+            pet.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
+
 
             pets.add(pet);
         }
@@ -86,6 +97,7 @@ public class PetDAO extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues dados = pegaDadosDoPet(pet);
+        dados.put("caminhoFoto", pet.getCaminhoFoto());
 
         String[] params = {pet.getId().toString()};
         db.update("PET", dados, "id = ?", params);
