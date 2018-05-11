@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import br.com.tcc.tcc.adapter.PetAdapter;
 import br.com.tcc.tcc.dao.PetDAO;
 import br.com.tcc.tcc.modelo.Pet;
 
@@ -57,13 +58,15 @@ public class ListaPetsActivity extends AppCompatActivity {
     }
 
     private void carregaLista() {
+
         PetDAO dao = new PetDAO(this);
         List<Pet> pets = dao.buscaPets();
         dao.close();
 
 
-        ArrayAdapter<Pet> adapter = new ArrayAdapter<Pet>(this, R.layout.list_item, pets);
+        PetAdapter adapter = new PetAdapter(this, pets);
         listaPets.setAdapter(adapter);
+
     }
 
     @Override
