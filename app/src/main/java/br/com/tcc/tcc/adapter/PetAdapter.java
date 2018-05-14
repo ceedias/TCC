@@ -62,6 +62,12 @@ public class PetAdapter extends BaseAdapter {
         TextView campoTelefone = (TextView) view.findViewById(R.id.item_telefone);
         campoTelefone.setText(pet.getTelefone());
 
+        TextView campoEndereco = (TextView) view.findViewById(R.id.item_endereco);
+        if (campoEndereco != null) {
+
+            campoEndereco.setText(pet.getEndereco());
+        }
+
         ImageView campoFoto = (ImageView) view.findViewById(R.id.item_foto);
         String caminhoFoto = pet.getCaminhoFoto();
         if (caminhoFoto != null) {
